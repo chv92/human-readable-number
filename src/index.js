@@ -1,44 +1,28 @@
 module.exports = function toReadable(number) {
-    let toTwenty = [zero, one, two, three, four, five, six, seven,
-        eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen,
-        seventeen, eighteen, nineteen,];
-    let tens = [twenty, thirty, forty, fifty, sixty, seventy, eighty, ninety];
-    let nigty = ['nine hundred ninety nine']
-    let output = '';
-    if (number <= 19) {
-        output = toTwenty[number];
-        return output;
+    let dg = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+    let tn = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+    let tw = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+
+    number = number.toString();
+    let x = number.length;
+    let n = number.split('');
+    let str = '';
+    if (number == '0') {
+        str += dg[0];
     }
-    if (number.length === 2) {
-        for (let i = 0; i < number.length; i++) {
-            number = number.toString();
-            if (number[i + 1] === 0) {
-                output = tens[number - 2];
+    for (let i = 0; i < x; i++) {
+        if ((x - i) % 3 == 2) {
+            if (n[i] == '1') {
+                str += tn[Number(n[i + 1])] + ' ';
+                i++;
+            } else if (n[i] != 0) {
+                str += tw[n[i] - 2] + ' ';
             }
-            else {
-                output += output;
-            }
+        } else if (n[i] != 0) {
+            str += dg[n[i]] + ' ';
+            if ((x - i) % 3 == 0) str += 'hundred ';
         }
     }
-    if (number.length === 3) {
-        // number = number.toString();
-        for (let i = 0; i < number.length; i++) {
-            if (number[i + 1] === 0 && number[i + 2] === 0) {
-                output = `${tens[number[i] - 2]} + 'hundret'`;
-
-            }
-
-            else {
-                output += nigty[i];
-            }
-        }
-
-        return output;
-
-    }
-
-
-
-
+    return str.trim();
 
 }
